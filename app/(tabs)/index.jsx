@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, View, Text, Button } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import Constant from 'expo-constants';
 
@@ -7,42 +7,35 @@ export default function HomeScreen() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A43333', dark: '#A43333' }}
       headerImage={
-        <View>
-          <View style={styles.container}>
-
-            <View>
-              <Text styles={styles.titleText}>Hi, Nama</Text>
-              <Text styles={styles.titleText}>Your Location</Text>
-            </View>
-
-            <View>
-              <Image
-                styles={styles.imageProfile}
-                source={require('@assets/images/Ellipse_24.png')} />
-            </View>
+        <View style={styles.container}>
+          <View>
+            <Text styles={styles.titleText1}>Hi, Nama</Text>
+            <Text styles={styles.titleText2}>Your Location</Text>
+          </View>
+          <View>
+            <Image
+              styles={styles.imageProfile}
+              source={require('@/assets/images/orang24.png')}
+            />
           </View>
         </View>
       }
     >
-
       <View styles={styles.banner}>
         <View styles={styles.bannerContainer}>
-
           <View styles={styles.bannerTextContainer}>
             <Text styles={styles.bannerText}>Sewa Mobil Berkualitas di kawasanmu</Text>
             <Button
               color='#3D7B3F'
               title="Sewa Mobil" />
           </View>
-
+          <View>
+            <Image
+              source={require('@/assets/images/img_car.png')}
+            />
+          </View>
         </View>
       </View>
-
-<View>
-  <Image source={require('@assets/images/img_car.png'/>
-</View>
-
-
     </ParallaxScrollView >
   );
 }
@@ -52,12 +45,20 @@ const styles = StyleSheet.create({
     marginTop: Constant.statusBarHeight,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
   },
 
-  titleText: {
+  titleText1: {
     color: '#ffffff',
-    fontFamily: 'PoppinsBold'
+    fontFamily: 'PoppinsBold',
+    fontSize: 12,
+  },
+
+  titleText2: {
+    color: '#ffffff',
+    fontFamily: 'PoppinsBold',
+    fontSize: 14,
   },
 
   imageProfile: {
@@ -66,14 +67,21 @@ const styles = StyleSheet.create({
   },
 
   banner: {
-    flex: 1,
-    height: 250,
-    marginTop: -180, // Untuk menaikkan banner ke atas
-    backgroundColor: '#f6f6f6'
+    backgroundColor: "#AF392F",
+    marginTop: -140,
+    overflow: 'hidden',
+    paddingTop: 20,
+    borderRadius: 5
+  },
+
+  bannerContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
   },
 
   bannerTextContainer: {
-    width: 45 %,
+    width: '45%',
     padding: 10,
     paddingBottom: 25
   },
@@ -83,6 +91,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
     fontSize: 16
   },
+
 
 
 });

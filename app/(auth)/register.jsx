@@ -46,7 +46,7 @@ export default function Login() {
 
                 <Text
                     style={styles.textRegister}>Already have an account?
-                    <Link style={styles.linkRegister} href="./akun"> Sign In here</Link> </Text>
+                    <Link style={styles.linkRegister} href="/index"> Sign In here</Link> </Text>
             </View>
 
         </View>

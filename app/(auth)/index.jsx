@@ -30,6 +30,7 @@ export default function Login() {
             </View>
 
             <View style={styles.formContainer}>
+                
                 <Button 
                 onPress={() => router.navigate('../(tabs)')}
                 color='#3D7B3F'
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
 
     formContainer: {
         paddingHorizontal: 20,
-        marginBottom: 20,
+        marginBottom: 30,
     },
 
     formLabel: {
