@@ -1,97 +1,140 @@
-import { Image, StyleSheet, View, Text, Button } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import Constant from 'expo-constants';
+import { Image, StyleSheet, View, Text, Button } from "react-native";
+import ParallaxFlatList from "@/components/ParallaxFlatList";
+import Constants from "expo-constants";
+import { Col, Row } from "../../components/Grid";
+import ButtonIcon from "../../components/ButtonIcon";
+import CarList from "../../components/CarList";
+import { useState, useEffect } from "react";
+import { router } from 'expo-router';
+import * as SecureStore from "expo-secure-store";
+
+import { useSelector, useDispatch } from "react-redux";                   // add import for redux & store
+import { getCar, selectCar } from '@/redux/reducer/car/carSlice';         // add import for redux & store
 
 export default function HomeScreen() {
+  const { data, isLoading } = useSelector(selectCar)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const controller = new AbortController(); // UseEffect cleanup untuk menghindari memory Leak
+    const signal = controller.signal;  // UseEffect cleanup
+
+    dispatch(getCar(signal))
+    
+    return () => {
+        // cancel request sebelum component di close
+        controller.abort();
+    };
+  }, []);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A43333', dark: '#A43333' }}
+    <ParallaxFlatList
+      headerBackgroundColor={{ light: "#A43333", dark: "#A43333" }}
       headerImage={
         <View style={styles.container}>
           <View>
-            <Text styles={styles.titleText1}>Hi, Nama</Text>
-            <Text styles={styles.titleText2}>Your Location</Text>
+            <Text style={styles.titleText}>Hi, Name</Text>
+            <Text style={styles.titleText}>Location</Text>
           </View>
           <View>
             <Image
-              styles={styles.imageProfile}
-              source={require('@/assets/images/orang24.png')}
+              style={styles.imageProfile}
+              source={require("@/assets/images/orang24.png")}
             />
           </View>
         </View>
       }
-    >
-      <View styles={styles.banner}>
-        <View styles={styles.bannerContainer}>
-          <View styles={styles.bannerTextContainer}>
-            <Text styles={styles.bannerText}>Sewa Mobil Berkualitas di kawasanmu</Text>
-            <Button
-              color='#3D7B3F'
-              title="Sewa Mobil" />
+      banner={
+        <>
+          <View style={styles.banner}>
+            <View style={styles.bannerContainer}>
+              <View style={styles.bannerTextContainer}>
+                <Text style={styles.bannerText}>
+                  Sewa Mobil Berkualitas di kawasanmu
+                </Text>
+                <Button color="#3D7B3F" title="Sewa Mobil" />
+              </View>
+              <View>
+                <Image source={require("@/assets/images/img_car.png")} />
+              </View>
+            </View>
           </View>
           <View>
-            <Image
-              source={require('@/assets/images/img_car.png')}
-            />
+            <Row justifyContent={"space-between"}>
+              <Col>
+                <ButtonIcon text={'Sewa Mobil'} name={"car-outline"} color={"#ffffff"} />
+              </Col>
+              <Col>
+                <ButtonIcon text={'Oleh-Oleh'} name={"cube-outline"} color={"#ffffff"} />
+              </Col>
+              <Col>
+                <ButtonIcon text={'Penginapan'} name={"key-outline"} color={"#ffffff"} />
+              </Col>
+              <Col>
+                <ButtonIcon text={'Wisata'} name={"camera-outline"} color={"#ffffff"} />
+              </Col>
+            </Row>
           </View>
-        </View>
-      </View>
-    </ParallaxScrollView >
+        </>
+      }
+      loading={isLoading}
+      data={data}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <CarList
+          style={{marginHorizontal:20}}
+          key={item.id}
+          image={{ uri: item.image }}
+          carName={item.name}
+          passengers={5}
+          baggage={4}
+          price={item.price}
+          onPress={() => 
+            router.push('(listcar)/details/' + item.id)
+          }
+        />
+      )}
+      viewabilityConfig={{
+        waitForInteraction: true,
+      }}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Constant.statusBarHeight,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingTop: Constants.statusBarHeight + 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
   },
-
-  titleText1: {
-    color: '#ffffff',
-    fontFamily: 'PoppinsBold',
-    fontSize: 12,
+  titleText: {
+    color: "#ffffff",
+    fontFamily: "PoppinsBold",
   },
-
-  titleText2: {
-    color: '#ffffff',
-    fontFamily: 'PoppinsBold',
-    fontSize: 14,
-  },
-
   imageProfile: {
     height: 35,
-    width: 35
+    width: 35,
   },
-
   banner: {
     backgroundColor: "#AF392F",
-    marginTop: -140,
-    overflow: 'hidden',
-    paddingTop: 20,
-    borderRadius: 5
+    marginTop: -90,
+    overflow: "hidden",
+    borderRadius: 5,
   },
-
   bannerContainer: {
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
   },
-
   bannerTextContainer: {
-    width: '45%',
-    padding: 10,
-    paddingBottom: 25
+    width: "45%",
+    padding: 15,
   },
-
   bannerText: {
-    color: '#ffffff',
-    fontFamily: 'Poppins',
-    fontSize: 16
+    color: "#ffffff",
+    fontFamily: "Poppins",
+    fontSize: 16,
   },
-
-
-
 });

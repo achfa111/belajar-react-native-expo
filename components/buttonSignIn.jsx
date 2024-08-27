@@ -1,39 +1,28 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router'
-import { Colors } from '@/constants/Colors'
-
 
 export default function buttonSignIn(props) {
+    const { onPress, title = 'Sign In' } = props;
     return (
-
-        <TouchableOpacity style={styles.newButton}>
-            <Link style={styles.newButtonLink}
-                href={props.link}>
-                {props.name}
-            </Link>
-        </TouchableOpacity>
-
+        <Pressable style={styles.buttonSignIn} onPress={onPress}>
+            <Text style={styles.text}>{title}</Text>
+        </Pressable>
     );
 }
 
 const styles = StyleSheet.create({
-    newButton: {
-        borderRadius: 10,
-        backGroundColor: Colors.light.button,
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 5
+    buttonSignIn: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 32,
+      borderRadius: 4,
+      elevation: 3,
+      backgroundColor: '#3D7B3F',
     },
-
-    newButtonLink: {
-        fontSize: 14,
-        lineHeight: 25,
-        fontFamily: 'PoppinsBold',
-        color: 'white',
-        padding: 5,
-        width: '100%',
-        textAlign: 'center',
-    }
-
-})
+    text: {
+      fontSize: 14,
+      fontFamily: 'PoppinsBold',
+      color: '#ffffff',
+    },
+  });
