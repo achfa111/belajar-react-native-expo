@@ -1,29 +1,34 @@
-import { Image, StyleSheet, View, Text, Button } from "react-native";
+import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import ParallaxFlatList from "@/components/ParallaxFlatList";
 import Constants from "expo-constants";
 import { Col, Row } from "../../components/Grid";
 import ButtonIcon from "../../components/ButtonIcon";
 import CarList from "../../components/CarList";
 import { useState, useEffect } from "react";
-import { router } from 'expo-router';
+import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import Geolocation from "../../components/Geolocation"
 
-import { useSelector, useDispatch } from "react-redux";                   // add import for redux & store
-import { getCar, selectCar } from '@/redux/reducer/car/carSlice';         // add import for redux & store
+import { useSelector, useDispatch } from "react-redux";             // add import for redux & store
+import { getCar, selectCar } from "@/redux/reducer/car/carSlice";   // add import for redux & store
+
+function getUser() {
+  return SecureStore.getItem("user");
+}
 
 export default function HomeScreen() {
-  const { data, isLoading } = useSelector(selectCar)
+  const { data, isLoading } = useSelector(selectCar);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const controller = new AbortController(); // UseEffect cleanup untuk menghindari memory Leak
-    const signal = controller.signal;  // UseEffect cleanup
+    const controller = new AbortController();     // UseEffect cleanup untuk menghindari memory Leak
+    const signal = controller.signal;             // UseEffect cleanup
 
-    dispatch(getCar(signal))
-    
+    dispatch(getCar(signal));
+
     return () => {
-        // cancel request sebelum component di close
-        controller.abort();
+      // cancel request sebelum component di close
+      controller.abort();
     };
   }, []);
 
@@ -33,8 +38,8 @@ export default function HomeScreen() {
       headerImage={
         <View style={styles.container}>
           <View>
-            <Text style={styles.titleText}>Hi, Name</Text>
-            <Text style={styles.titleText}>Location</Text>
+            <Text style={styles.titleText}>Hi, (your_name)</Text>
+            <Geolocation/>
           </View>
           <View>
             <Image
@@ -52,7 +57,9 @@ export default function HomeScreen() {
                 <Text style={styles.bannerText}>
                   Sewa Mobil Berkualitas di kawasanmu
                 </Text>
-                <Button color="#3D7B3F" title="Sewa Mobil" />
+                <TouchableOpacity style={styles.formButton} onPress={() => router.navigate("/(listcar)")}>
+                  <Text style={styles.textButton}>Sewa Mobil</Text>
+                </TouchableOpacity>
               </View>
               <View>
                 <Image source={require("@/assets/images/img_car.png")} />
@@ -62,19 +69,37 @@ export default function HomeScreen() {
           <View>
             <Row justifyContent={"space-between"}>
               <Col>
-                <ButtonIcon text={'Sewa Mobil'} name={"car-outline"} color={"#ffffff"} />
+                <ButtonIcon
+                  text={"Sewa Mobil"}
+                  name={"car-outline"}
+                  color={"#ffffff"}
+                />
               </Col>
               <Col>
-                <ButtonIcon text={'Oleh-Oleh'} name={"cube-outline"} color={"#ffffff"} />
+                <ButtonIcon
+                  text={"Oleh-Oleh"}
+                  name={"cube-outline"}
+                  color={"#ffffff"}
+                />
               </Col>
               <Col>
-                <ButtonIcon text={'Penginapan'} name={"key-outline"} color={"#ffffff"} />
+                <ButtonIcon
+                  text={"Penginapan"}
+                  name={"key-outline"}
+                  color={"#ffffff"}
+                />
               </Col>
               <Col>
-                <ButtonIcon text={'Wisata'} name={"camera-outline"} color={"#ffffff"} />
+                <ButtonIcon
+                  text={"Wisata"}
+                  name={"camera-outline"}
+                  color={"#ffffff"}
+                />
               </Col>
             </Row>
           </View>
+
+          <Text style={styles.newText}>Daftar Mobil Pilihan</Text>
         </>
       }
       loading={isLoading}
@@ -82,16 +107,14 @@ export default function HomeScreen() {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <CarList
-          style={{marginHorizontal:20}}
+          style={{ marginHorizontal: 20 }}
           key={item.id}
           image={{ uri: item.image }}
           carName={item.name}
           passengers={5}
           baggage={4}
           price={item.price}
-          onPress={() => 
-            router.push('(listcar)/details/' + item.id)
-          }
+          onPress={() => router.navigate("(listcar)/details/" + item.id)}
         />
       )}
       viewabilityConfig={{
@@ -109,6 +132,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
+
+  newText: {
+    fontFamily: "PoppinsBold",
+    fontSize: 14,
+    marginTop: 10,
+  },
+
   titleText: {
     color: "#ffffff",
     fontFamily: "PoppinsBold",
@@ -137,4 +167,20 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     fontSize: 16,
   },
+
+  formButton: {
+    backgroundColor: "#3D7B3F",
+    paddingHorizontal: 8,
+    paddingVertical: 12,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+
+  textButton: {
+    fontFamily: "PoppinsBold",
+    color: "#ffffff",
+    textAlign: "center",
+    fontSize: 14,
+  },
+
 });

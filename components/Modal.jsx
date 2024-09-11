@@ -14,9 +14,7 @@ export default function ModalPopup({ visible, children }) {
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)'
       }}>
-
         {children}
-
       </View>
     </Modal>
   )

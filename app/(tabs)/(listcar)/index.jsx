@@ -8,14 +8,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getCar, selectCar } from '@/redux/reducer/car/carSlice'
 
 export default function listcar() {
-  const [data, isLoading] = useSelector([selectCar]);
+  const {data, isLoading} = useSelector(selectCar);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const controller = new AbortController(); // UseEffect cleanup untuk menghindari memory Leak
     const signal = controller.signal;  // UseEffect cleanup
 
-    dispatchEvent(getCar(signal))
+    dispatch(getCar(signal))
 
     return () => {
         // cancel request sebelum component di close

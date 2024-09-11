@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -11,8 +7,10 @@ import "react-native-reanimated";
 import * as SecureStore from "expo-secure-store";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Provider } from "react-redux";                 // >>>>> add import for store
-import { store } from "../redux/store";                 // >>>>> add import for store
+import { Provider } from "react-redux";                              // >>>>> add import for store
+import { store } from "../redux/store";                   // >>>>> add import for store
+
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -30,14 +28,15 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    crashlytics().log('App started');
     if (loaded) {
-      if (getUser()) {
-        router.navigate("/(tabs)");
-      }
+      setTimeout(() => {
+        if(getUser()) router.replace('/(tabs)')
+      }, 200)
 
       setTimeout(() => {
         SplashScreen.hideAsync();
-      }, 500);
+      }, 1000);
     }
   }, [loaded]);
 
@@ -51,6 +50,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(order)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
       </Provider>

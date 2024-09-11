@@ -2,7 +2,7 @@ import { Pressable, Text, View, StyleSheet } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react'
 
-export default function ButtonIcon({onPress, text, style, ...rest}) {
+export default function ButtonIcon({onPress, text, style, ...rest}) {   // ...rest adalah data sisa yg tidak tercantum
   return (
     <Pressable style={styles.container} onPress={onPress}>
         <View style={styles.box}>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "815483001661",
+    "project_id": "car-rental-tmmin",
+    "storage_bucket": "car-rental-tmmin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815483001661:android:dec6b7de52a9c2ac580354",
+        "android_client_info": {
+          "package_name": "com.anonymous.carrentalexpo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815483001661-u36ju0on18j0aeme42rlict3ppk5l53e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anonymous.carrentalexpo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "815483001661-ajkv65tp77du5dph3s1iqrckv65h9sd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi7tzqOIYhJaya3VoV5sYqrbuA1db4oes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815483001661-ajkv65tp77du5dph3s1iqrckv65h9sd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
